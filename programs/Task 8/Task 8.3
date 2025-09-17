@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class DecodeString {
+    static String decode(String s) {
+        Stack<Integer> num = new Stack<>();
+        Stack<String> str = new Stack<>();
+        String curr = "";
+        int k = 0;
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) k = k * 10 + (c - '0');
+            else if (c == '[') { num.push(k); str.push(curr); k = 0; curr = ""; }
+            else if (c == ']') {
+                String temp = curr;
+                curr = str.pop();
+                int repeat = num.pop();
+                while (repeat-- > 0) curr += temp;
+            } else curr += c;
+        }
+        return curr;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter encoded string: ");
+        System.out.println("Decoded Output: " + decode(sc.nextLine()));
+    }
+}
