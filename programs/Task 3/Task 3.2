@@ -1,0 +1,17 @@
+import java.util.Scanner;
+
+public class PalindromeCheck {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string or number: ");
+        String input = sc.nextLine();
+        String processed = input.replaceAll("\\s+", "").toLowerCase();
+        String reversed = new StringBuilder(processed).reverse().toString();
+        if (processed.equals(reversed)) {
+            System.out.println(input + " is a Palindrome.");
+        } else {
+            System.out.println(input + " is NOT a Palindrome.");
+        }
+        sc.close();
+    }
+}
