@@ -1,0 +1,59 @@
+import java.util.HashSet;
+
+class RemoveDuplicatesLinkedList {
+    static class Node {
+        int data;
+        Node next;
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    Node head;
+
+    void push(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
+    }
+
+    void printList(Node node) {
+        while (node != null) {
+            System.out.print(node.data + " ");
+            node = node.next;
+        }
+        System.out.println();
+    }
+
+    void removeDuplicates() {
+        HashSet<Integer> set = new HashSet<>();
+        Node curr = head;
+        Node prev = null;
+        while (curr != null) {
+            if (set.contains(curr.data)) {
+                prev.next = curr.next;
+            } else {
+                set.add(curr.data);
+                prev = curr;
+            }
+            curr = curr.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        RemoveDuplicatesLinkedList list = new RemoveDuplicatesLinkedList();
+        list.push(5);
+        list.push(4);
+        list.push(4);
+        list.push(3);
+        list.push(2);
+        list.push(2);
+        list.push(1);
+        System.out.print("Original List: ");
+        list.printList(list.head);
+        list.removeDuplicates();
+        System.out.print("List After Removing Duplicates: ");
+        list.printList(list.head);
+    }
+}
