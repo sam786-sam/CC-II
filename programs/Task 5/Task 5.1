@@ -1,0 +1,55 @@
+class InsertionSortLinkedList {
+    static class Node {
+        int data;
+        Node next;
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    Node head;
+
+    void push(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
+    }
+
+    void printList(Node node) {
+        while (node != null) {
+            System.out.print(node.data + " ");
+            node = node.next;
+        }
+        System.out.println();
+    }
+
+    Node insertionSort(Node head) {
+        Node dummy = new Node(0);
+        Node curr = head;
+        while (curr != null) {
+            Node prev = dummy;
+            while (prev.next != null && prev.next.data < curr.data) {
+                prev = prev.next;
+            }
+            Node next = curr.next;
+            curr.next = prev.next;
+            prev.next = curr;
+            curr = next;
+        }
+        return dummy.next;
+    }
+
+    public static void main(String[] args) {
+        InsertionSortLinkedList list = new InsertionSortLinkedList();
+        list.push(3);
+        list.push(1);
+        list.push(2);
+        list.push(4);
+        System.out.print("Original List: ");
+        list.printList(list.head);
+        list.head = list.insertionSort(list.head);
+        System.out.print("Sorted List: ");
+        list.printList(list.head);
+    }
+}
