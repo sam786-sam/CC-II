@@ -1,0 +1,38 @@
+import java.util.Scanner;
+
+public class PasswordValidator {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter password: ");
+        String password = sc.nextLine();
+        boolean valid = true;
+
+        if (password.length() < 8) {
+            System.out.println("Password must be at least 8 characters long.");
+            valid = false;
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            System.out.println("Password must contain at least one uppercase letter.");
+            valid = false;
+        }
+        if (!password.matches(".*[a-z].*")) {
+            System.out.println("Password must contain at least one lowercase letter.");
+            valid = false;
+        }
+        if (!password.matches(".*\\d.*")) {
+            System.out.println("Password must contain at least one digit.");
+            valid = false;
+        }
+        if (!password.matches(".*[@#$!%^&*()_+\\-=].*")) {
+            System.out.println("Password must contain at least one special character (@, #, $, etc.).");
+            valid = false;
+        }
+
+        if (valid) {
+            System.out.println("Password is valid.");
+        } else {
+            System.out.println("Password is invalid. Please ensure it meets all criteria.");
+        }
+        sc.close();
+    }
+}
