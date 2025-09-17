@@ -1,1 +1,31 @@
+import java.util.Scanner;
 
+public class IntegerSquareRoot {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter a number:");
+        int n = sc.nextInt();
+        int result = squareRoot(n);
+        System.out.println("Square root: " + result);
+    }
+
+    static int squareRoot(int n) {
+        if (n == 0 || n == 1)
+            return n;
+
+        int start = 1, end = n, ans = 0;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+
+            if (mid <= n / mid) {
+                ans = mid;
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        return ans;
+    }
+}
