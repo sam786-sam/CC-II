@@ -1,0 +1,61 @@
+class RemoveElementLinkedList {
+    static class Node {
+        int data;
+        Node next;
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    Node head;
+
+    void push(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
+    }
+
+    void printList(Node node) {
+        while (node != null) {
+            System.out.print(node.data + " ");
+            node = node.next;
+        }
+        System.out.println();
+    }
+
+    void remove(int key) {
+        if (head == null) return;
+        if (head.data == key) {
+            head = head.next;
+            return;
+        }
+        Node curr = head;
+        while (curr.next != null && curr.next.data != key) {
+            curr = curr.next;
+        }
+        if (curr.next != null) {
+            curr.next = curr.next.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        RemoveElementLinkedList list = new RemoveElementLinkedList();
+        list.push(5);
+        list.push(4);
+        list.push(3);
+        list.push(2);
+        list.push(1);
+        System.out.print("Original List: ");
+        list.printList(list.head);
+        list.remove(3);
+        System.out.print("Updated List (after removing 3): ");
+        list.printList(list.head);
+        list.remove(1);
+        System.out.print("Updated List (after removing 1): ");
+        list.printList(list.head);
+        list.remove(6);
+        System.out.print("Updated List (after attempting to remove 6): ");
+        list.printList(list.head);
+    }
+}
