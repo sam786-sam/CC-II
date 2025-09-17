@@ -1,0 +1,37 @@
+import java.util.*;
+
+public class CheapestFlightKStops {
+    public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        Map<Integer, List<int[]>> graph = new HashMap<>();
+        for (int[] f : flights)
+            graph.computeIfAbsent(f[0], k -> new ArrayList<>()).add(new int[]{f[1], f[2]});
+
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{src, 0, 0});
+
+        int ans = Integer.MAX_VALUE;
+
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int city = cur[0], cost = cur[1], stops = cur[2];
+
+            if (city == dst) ans = Math.min(ans, cost);
+            if (stops > K || cost > ans) continue;
+
+            if (graph.containsKey(city)) {
+                for (int[] next : graph.get(city)) {
+                    q.offer(new int[]{next[0], cost + next[1], stops + 1});
+                }
+            }
+        }
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+
+    public static void main(String[] args) {
+        int[][] flights1 = {{0,1,200}, {1,2,100}, {0,2,500}};
+        System.out.println("Cheapest Price = " + findCheapestPrice(3, flights1, 0, 2, 1)); // 300
+
+        int[][] flights2 = {{0,1,100}, {1,2,100}, {2,3,100}, {0,3,500}};
+        System.out.println("Cheapest Price = " + findCheapestPrice(4, flights2, 0, 3, 1)); // 500
+    }
+}
