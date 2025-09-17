@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class MinCostConnectGroups {
+    public static int connectTwoGroups(List<List<Integer>> cost) {
+        int m = cost.size();     
+        int n = cost.get(0).size();
+        int maxMask = 1 << n;
+
+        int[] minCostToGroup2 = new int[n];
+        Arrays.fill(minCostToGroup2, Integer.MAX_VALUE);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                minCostToGroup2[j] = Math.min(minCostToGroup2[j], cost.get(i).get(j));
+            }
+        }
+
+        int[][] dp = new int[m + 1][maxMask];
+        for (int[] row : dp) Arrays.fill(row, Integer.MAX_VALUE / 2);
+        dp[0][0] = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int mask = 0; mask < maxMask; mask++) {
+                if (dp[i][mask] >= Integer.MAX_VALUE / 2) continue;
+                for (int j = 0; j < n; j++) {
+                    int newMask = mask | (1 << j);
+                    dp[i + 1][newMask] =
+                        Math.min(dp[i + 1][newMask], dp[i][mask] + cost.get(i).get(j));
+                }
+            }
+        }
+
+        int ans = Integer.MAX_VALUE;
+        for (int mask = 0; mask < maxMask; mask++) {
+            int cur = dp[m][mask];
+            if (cur >= Integer.MAX_VALUE / 2) continue;
+
+            for (int j = 0; j < n; j++) {
+                if ((mask & (1 << j)) == 0) {
+                    cur += minCostToGroup2[j];
+                }
+            }
+            ans = Math.min(ans, cur);
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        List<List<Integer>> cost = Arrays.asList(
+            Arrays.asList(15, 96),
+            Arrays.asList(36, 2)
+        );
+        System.out.println("Minimum cost = " + connectTwoGroups(cost)); 
+    }
+}
