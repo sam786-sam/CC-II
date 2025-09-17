@@ -1,0 +1,23 @@
+import java.util.*;
+
+public class PhoneLetterCombinations {
+    static String[] map = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    static List<String> res = new ArrayList<>();
+
+    static void backtrack(String digits, int idx, String curr) {
+        if (idx == digits.length()) { res.add(curr); return; }
+        for (char c : map[digits.charAt(idx) - '0'].toCharArray())
+            backtrack(digits, idx + 1, curr + c);
+    }
+
+    public static List<String> letterCombinations(String digits) {
+        if (digits.isEmpty()) return res;
+        backtrack(digits, 0, "");
+        return res;
+    }
+
+    public static void main(String[] args) {
+        String digits = "23";
+        System.out.println(letterCombinations(digits));
+    }
+}
