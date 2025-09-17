@@ -1,0 +1,29 @@
+import java.util.*;
+
+public class DiskTower {
+    static void solveTower(int[] disks, int day, int n, PriorityQueue<Integer> pq, int[] max) {
+        if (day == n) return;
+        pq.add(disks[day]);
+        System.out.print("Day " + (day + 1) + ": ");
+        while (!pq.isEmpty() && pq.peek() == max[0]) {
+            System.out.print(pq.poll() + " ");
+            max[0]--;
+        }
+        System.out.println();
+        solveTower(disks, day + 1, n, pq, max);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number of disks (days): ");
+        int n = sc.nextInt();
+        int[] disks = new int[n];
+        System.out.println("Enter the disk sizes:");
+        for (int i = 0; i < n; i++) disks[i] = sc.nextInt();
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int[] max = {Arrays.stream(disks).max().getAsInt()};
+        System.out.println("Tower construction order:");
+        solveTower(disks, 0, n, pq, max);
+        sc.close();
+    }
+}
