@@ -1,0 +1,48 @@
+import java.util.HashMap;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int v) { val = v; }
+}
+
+public class PathSumCount {
+    public static int pathSum(TreeNode root, int targetSum) {
+        HashMap<Integer, Integer> prefixSumMap = new HashMap<>();
+        prefixSumMap.put(0, 1); // base case
+        return dfs(root, 0, targetSum, prefixSumMap);
+    }
+
+    private static int dfs(TreeNode node, int currSum, int targetSum, HashMap<Integer, Integer> map) {
+        if (node == null) return 0;
+
+        currSum += node.val;
+
+        int count = map.getOrDefault(currSum - targetSum, 0);
+
+        map.put(currSum, map.getOrDefault(currSum, 0) + 1);
+
+        count += dfs(node.left, currSum, targetSum, map);
+        count += dfs(node.right, currSum, targetSum, map);
+
+        map.put(currSum, map.get(currSum) - 1);
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+
+        TreeNode root = new TreeNode(10);
+        root.left = new TreeNode(5);
+        root.right = new TreeNode(-3);
+        root.left.left = new TreeNode(3);
+        root.left.right = new TreeNode(2);
+        root.right.right = new TreeNode(11);
+        root.left.left.left = new TreeNode(3);
+        root.left.left.right = new TreeNode(-2);
+        root.left.right.right = new TreeNode(1);
+
+        int targetSum = 8;
+        System.out.println("Number of paths with sum " + targetSum + " = " + pathSum(root, targetSum));
+    }
+}
